@@ -69,8 +69,11 @@ func realMain() int {
 	}
 
 	// Detect whether we have data being piped through stdin
-	stat, _ := os.Stdin.Stat()
-	isStdin := (stat.Mode() & os.ModeCharDevice) == 0
+	stat, err := os.Stdin.Stat()
+	if err != nil {
+		panic(err)
+	}
+	isStdin := (!(stat.Mode() & os.ModeNamedPipe) == 0)
 	if len(cfg.Files) == 1 && cfg.Files[0] == "-" {
 		isStdin = true
 	}
