@@ -73,7 +73,7 @@ func realMain() int {
 	if err != nil {
 		panic(err)
 	}
-	isStdin := (!(stat.Mode() & os.ModeNamedPipe) == 0)
+	isStdin := !((stat.Mode() & os.ModeNamedPipe) == 0)
 	if len(cfg.Files) == 1 && cfg.Files[0] == "-" {
 		isStdin = true
 	}
